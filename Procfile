@@ -1,1 +1,1 @@
-worker: sh target/bin/kBot
+worker: sh target/bin/main
