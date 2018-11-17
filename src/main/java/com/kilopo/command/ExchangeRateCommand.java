@@ -50,12 +50,12 @@ public class ExchangeRateCommand extends BotCommand {
 
     private String formatMessage(Rates rates) {
 
-        StringBuilder messageBuilder = new StringBuilder(String.format("%s%15s%15s%17s", "Валюта", "Покупка ПБ", "Продаж ПБ", "НБУ"));
+        StringBuilder messageBuilder = new StringBuilder(String.format("%s%8s%9s%7s", "Вал", "Пок", "Прод", "НБУ"));
 
 
         rates.getExchangeRate().forEach(rate -> messageBuilder
                 .append("\n")
-                .append(String.format("%s%23s%25s%25s",
+                .append(String.format("%s%9s%8s%8s",
                         rate.getCurrency(),
                         new DecimalFormat("#00.00").format(rate.getPurchaseRate()),
                         new DecimalFormat("#00.00").format(rate.getSaleRate()),
