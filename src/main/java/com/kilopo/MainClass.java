@@ -8,7 +8,6 @@ public class MainClass {
 
     public static void main(String[] args) {
 
-
         ApiContextInitializer.init();
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
         try {
@@ -17,7 +16,5 @@ public class MainClass {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
-
-
     }
 }
