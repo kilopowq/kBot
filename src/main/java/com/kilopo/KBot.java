@@ -1,5 +1,6 @@
 package com.kilopo;
 
+import com.kilopo.command.ExchangeRateCommand;
 import com.kilopo.command.FootballCommand;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -10,28 +11,21 @@ import java.util.Arrays;
 
 import static com.kilopo.Constants.BOT_NAME;
 import static com.kilopo.Constants.BOT_TOKEN;
+import static com.kilopo.Constants.LEAGUES_NAMES;
 
 public class KBot extends TelegramLongPollingCommandBot {
     private String newMessageText;
 
     KBot() {
         super(BOT_NAME);
-        register(new FootballCommand("all", "All leagues"));
-        register(new FootballCommand("apl", "Premiere League"));
-        register(new FootballCommand("cl", "Champion League"));
-        register(new FootballCommand("la", "La Liga"));
-        register(new FootballCommand("bund", "Bundesliga"));
-        register(new FootballCommand("sa", "Serie A"));
-        register(new FootballCommand("l1", "Ligue 1"));
-        register(new FootballCommand("wc", "World Cup"));
-        register(new FootballCommand("ec", "Euro"));
+        LEAGUES_NAMES.forEach((key, value) -> register(new FootballCommand(key, value)));
+        register(new ExchangeRateCommand());
     }
 
     @Override
     public void processNonCommandUpdate(Update update) {
         checkLus(update);
         hzShoDelat(update);
-        //writeToConsolNotFedorka(update);
     }
 
     private void hzShoDelat(Update update) {
@@ -93,14 +87,6 @@ public class KBot extends TelegramLongPollingCommandBot {
             execute(message);
         } catch (TelegramApiException e) {
             e.printStackTrace();
-        }
-    }
-
-    private void writeToConsolNotFedorka(Update update) {
-        if (update.getMessage().getChat().getTitle() == null || !update.getMessage().getChat().getTitle().equals("Федорка v2.0")) {
-            System.out.println("-" + update.getMessage().getChat().getTitle() + " | " + update.getMessage().getText() + " | " +
-                    update.getMessage().getFrom().getUserName() + "(" + update.getMessage().getFrom().getFirstName() + " " +
-                    update.getMessage().getFrom().getLastName() + ")");
         }
     }
 

@@ -19,6 +19,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.text.SimpleDateFormat;
 
 import static com.kilopo.Constants.FOOTBALL_TOKEN;
+import static com.kilopo.Constants.FOOTBALL_URL;
 
 public class FootballCommand extends BotCommand {
     private static final String TOP_LEAGUES = "2001,2021,2014,2012,2019,2015,2000,2018";
@@ -34,7 +35,7 @@ public class FootballCommand extends BotCommand {
     }
 
     private GetRequest getFootballURL() {
-        return Unirest.get("https://api.football-data.org/v2/matches")
+        return Unirest.get(FOOTBALL_URL)
                 .header("accept", "application/json")
                 .header("X-Auth-Token", FOOTBALL_TOKEN);
     }
@@ -103,13 +104,13 @@ public class FootballCommand extends BotCommand {
     }
 
     private MatchDay getMatchday() {
-        Unirest.setObjectMapper(new CustomObjectMapper());
+
         HttpResponse<MatchDay> matchDay = null;
         try {
             if (this.getCommandIdentifier().equals(ALL_LEAGUES)) {
                 matchDay = getAllTodayMatchesURL().asObject(MatchDay.class);
             } else {
-                matchDay = getTodaymathesByLeagueURL(Constants.leagues.get(this.getCommandIdentifier())).asObject(MatchDay.class);
+                matchDay = getTodaymathesByLeagueURL(Constants.LEAGUES_CODES.get(this.getCommandIdentifier())).asObject(MatchDay.class);
             }
 
         } catch (UnirestException e) {
