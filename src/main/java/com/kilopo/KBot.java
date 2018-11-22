@@ -9,9 +9,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.Arrays;
 
-import static com.kilopo.Constants.BOT_NAME;
-import static com.kilopo.Constants.BOT_TOKEN;
-import static com.kilopo.Constants.LEAGUES_NAMES;
+import static com.kilopo.Constants.*;
 
 public class KBot extends TelegramLongPollingCommandBot {
     private String newMessageText;
@@ -19,6 +17,7 @@ public class KBot extends TelegramLongPollingCommandBot {
     KBot() {
         super(BOT_NAME);
         LEAGUES_NAMES.forEach((key, value) -> register(new FootballCommand(key, value)));
+        register(new FootballCommand("all", "All leagues."));
         register(new ExchangeRateCommand());
     }
 
@@ -34,7 +33,11 @@ public class KBot extends TelegramLongPollingCommandBot {
         String[] lastTwoChars = {"ам"};
         String text = update.getMessage().getText();
         String lastChar = text.substring(text.length() - 1);
-        String lastTwoChar = text.substring(text.length() - 2);
+        String lastTwoChar = null;
+        if (text.length() > 1) {
+            lastTwoChar = text.substring(text.length() - 2);
+        }
+
 
         if (Arrays.stream(separators).noneMatch(text::contains)
                 && (Arrays.stream(lastChars).anyMatch(lastChar::contains)
@@ -65,13 +68,24 @@ public class KBot extends TelegramLongPollingCommandBot {
         message = message.toLowerCase();
         String[] words = message.split(" ");
 
-        if (Arrays.stream(words).anyMatch(word -> word.contains("лисий"))) {
+        if (Arrays.stream(words).anyMatch(word -> word.contains("лисий") || word.contains("лиcий"))) {
             return "Мар'ян";
-        } else if (Arrays.stream(words).anyMatch(word -> word.contains("лисого"))) {
+        } else if (Arrays.stream(words).anyMatch(word -> word.contains("лисого")
+                || word.contains("лиcого") || word.contains("лисoго") || word.contains("лисоrо") || word.contains("лисогo")
+                || word.contains("лиcoго") || word.contains("лиcоrо") || word.contains("лиcогo")
+                || word.contains("лисorо") || word.contains("лисoгo")
+                || word.contains("лисоro")
+                || word.contains("лиcorо") || word.contains("лиcoгo") || word.contains("лиcоro")
+                || word.contains("лиcoro"))) {
             return "Мар'яна";
-        } else if (Arrays.stream(words).anyMatch(word -> word.contains("лисому"))) {
+        } else if (Arrays.stream(words).anyMatch(word -> word.contains("лисому") || word.contains("лиcому") || word.contains("лисoму") || word.contains("лисоmу") || word.contains("лисомy")
+                || word.contains("лиcoму") || word.contains("лиcоmу") || word.contains("лиcомy")
+                || word.contains("лисomу") || word.contains("лисoмy")
+                || word.contains("лисоmy")
+                || word.contains("лиcomу") || word.contains("лиcoмy") || word.contains("лиcоmy")
+                || word.contains("лисomy"))) {
             return "Мар'яну";
-        } else if (Arrays.stream(words).anyMatch(word -> word.contains("лисим"))) {
+        } else if (Arrays.stream(words).anyMatch(word -> word.contains("лисим") || word.contains("лиcим") || word.contains("лисиm") || word.contains("лиcиm"))) {
             return "Мар'яном";
         } else
             return null;

@@ -40,5 +40,6 @@ public interface Constants {
             .add("USD")
             .add("EUR")
             .add("RUB")
+            .add("PLZ")
             .build();
 }
