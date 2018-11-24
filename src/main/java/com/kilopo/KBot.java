@@ -2,6 +2,7 @@ package com.kilopo;
 
 import com.kilopo.command.ExchangeRateCommand;
 import com.kilopo.command.FootballCommand;
+import com.kilopo.command.WeatherCommand;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -19,6 +20,10 @@ public class KBot extends TelegramLongPollingCommandBot {
         LEAGUES_NAMES.forEach((key, value) -> register(new FootballCommand(key, value)));
         register(new FootballCommand("all", "All leagues."));
         register(new ExchangeRateCommand());
+
+        register(new WeatherCommand("w", "Weather for 1 day", 1));
+        register(new WeatherCommand("w", "Weather for 3 day", 3));
+        register(new WeatherCommand("w", "Weather for 5 day", 5));
     }
 
     @Override
