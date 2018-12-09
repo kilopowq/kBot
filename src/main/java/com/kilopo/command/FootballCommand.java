@@ -22,7 +22,7 @@ import static com.kilopo.Constants.FOOTBALL_TOKEN;
 import static com.kilopo.Constants.FOOTBALL_URL;
 
 public class FootballCommand extends BotCommand {
-    private static final String TOP_LEAGUES = "2001,2021,2014,2012,2019,2015,2000,2018";
+    private static final String TOP_LEAGUES = "2001,2021,2014,2002,2019,2015,2000,2018";
     private static final String ALL_LEAGUES = "all";
 
     public FootballCommand(String league, String description) {
