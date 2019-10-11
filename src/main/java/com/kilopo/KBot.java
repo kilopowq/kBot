@@ -20,8 +20,7 @@ public class KBot extends TelegramLongPollingCommandBot {
         register(new FootballCommand("all", "All leagues."));
         register(new ExchangeRateCommand());
 
-        register(new WeatherCommand("w", "Weather for current day"));
-        register(new WeatherCommand("w", "Weather for 24 hours", 1));
+        register(new WeatherCommand("w", "Weather for 1 day", 1));
         register(new WeatherCommand("w", "Weather for 3 day", 3));
         register(new WeatherCommand("w", "Weather for 5 day", 5));
     }

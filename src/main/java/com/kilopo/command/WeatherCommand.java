@@ -22,15 +22,11 @@ import static com.kilopo.Constants.WEATHER_URL;
 
 
 public class WeatherCommand extends BotCommand {
-    private Integer daysQuantity = 0;
+    private final Integer daysQuantity;
 
     public WeatherCommand(String commandIdentifier, String description, Integer daysQuantity) {
         super(commandIdentifier.concat(daysQuantity.toString()), description);
         this.daysQuantity = daysQuantity;
-    }
-
-    public WeatherCommand(String commandIdentifier, String description) {
-        super(commandIdentifier, description);
     }
 
     @Override
@@ -50,14 +46,7 @@ public class WeatherCommand extends BotCommand {
         Date maxDate = new Date();
         Calendar c = Calendar.getInstance();
         c.setTime(maxDate);
-        if (daysQuantity != 0) {
-            c.add(Calendar.DATE, daysQuantity);
-        } else {
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DATE);
-            c.set(year, month, day + 1, 0, 0, 0);
-        }
+        c.add(Calendar.DATE, daysQuantity);
         return weatherObject.getWeatherItemList()
                 .stream()
                 .filter(weatherItem -> weatherItem.getDate().before(c.getTime()))
@@ -70,9 +59,11 @@ public class WeatherCommand extends BotCommand {
 
         weatherItemList.forEach(weatherItem ->
                 message.append(slf.format(weatherItem.getDate()))
-                        .append("   ")
-                        .append((int) Math.round(weatherItem.getMainDescription().getTemperature()))
-                        .append("°,  ")
+                        .append(" від ")
+                        .append(weatherItem.getMainDescription().getMinimumTemperature())
+                        .append(" до ")
+                        .append(weatherItem.getMainDescription().getMaximumTemperature())
+                        .append(", ")
                         .append(weatherItem.getWeather().getDescription())
                         .append("\n")
         );
