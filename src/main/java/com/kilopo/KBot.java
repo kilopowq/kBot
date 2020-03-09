@@ -39,7 +39,7 @@ public class KBot extends TelegramLongPollingCommandBot {
         String[] separators = {" ", ".", "/", ",", "|", "_"};
         String[] lastChars = {"і", "у", "ю", "ї"};
         String[] lastTwoChars = {"ам"};
-        String[] exceptions = {"юху", "внатурі", "взагалі", "всмислі", "аха", "ахах", "юхуу", "юхууу", "ахаха"};
+        String[] exceptions = {"юху", "внатурі", "взагалі", "всмислі", "аха", "ахах", "юхуу", "юхууу", "ахаха", "угу", "угуу"};
         String text = update.getMessage().getText();
         String lastChar = text.substring(text.length() - 1);
         String lastTwoChar = null;
