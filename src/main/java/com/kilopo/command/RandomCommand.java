@@ -1,11 +1,9 @@
 package com.kilopo.command;
 
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,6 +11,7 @@ import java.util.Optional;
 import java.util.Random;
 
 import static com.kilopo.BotUtils.checkName;
+import static com.kilopo.BotUtils.sendMessage;
 import static java.util.Objects.nonNull;
 
 public class RandomCommand extends BotCommand {
@@ -27,28 +26,13 @@ public class RandomCommand extends BotCommand {
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
         List<String> members = Arrays.asList(strings);
         Optional<String> lys = members.stream().filter(p -> nonNull(checkName(p))).findFirst();
-        if(lys.isPresent()) {
+        if (lys.isPresent()) {
             String text = "Ви мали на увазі " + checkName(lys.get()) + " ?";
-            sendMessage(chat, text, absSender);
+            sendMessage(absSender, text, chat);
         } else {
             Random rand = new Random();
             String randomElement = members.get(rand.nextInt(members.size()));
-            sendMessage(chat, randomElement, absSender);
+            sendMessage(absSender, randomElement, chat);
         }
     }
-
-    private void sendMessage(Chat chat, String text, AbsSender absSender) {
-        SendMessage message = new SendMessage();
-
-        message.setChatId(chat.getId());
-        message.setText(text);
-        message.enableHtml(true);
-
-        try {
-            absSender.execute(message);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-    }
-
 }

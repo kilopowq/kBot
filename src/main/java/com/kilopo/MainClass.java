@@ -1,24 +1,17 @@
 package com.kilopo;
 
-import com.mashape.unirest.http.Unirest;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.ApiContextInitializer;
-import org.telegram.telegrambots.meta.TelegramBotsApi;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+@SpringBootApplication
+@Configuration
 public class MainClass {
 
     public static void main(String[] args) {
-
         ApiContextInitializer.init();
-        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
-
-        Unirest.setObjectMapper(new CustomObjectMapper());
-
-        try {
-            telegramBotsApi.registerBot(new KBot());
-
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
+        SpringApplication.run(MainClass.class, args);
     }
+
 }

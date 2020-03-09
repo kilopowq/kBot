@@ -1,5 +1,11 @@
 package com.kilopo;
 
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Chat;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.bots.AbsSender;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
 import java.util.Arrays;
 
 public class BotUtils {
@@ -29,5 +35,31 @@ public class BotUtils {
             return "Мар'яном";
         } else
             return null;
+    }
+
+    public static void sendMessage(AbsSender absSender, String text, Update update) {
+        SendMessage message = new SendMessage();
+
+        message.setChatId(update.getMessage().getChatId());
+        message.setText(text);
+
+        try {
+            absSender.execute(message);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void sendMessage(AbsSender absSender, String text, Chat chat) {
+        SendMessage message = new SendMessage();
+
+        message.setChatId(chat.getId());
+        message.setText(text);
+
+        try {
+            absSender.execute(message);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 }

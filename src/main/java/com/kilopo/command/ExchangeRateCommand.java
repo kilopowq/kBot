@@ -4,17 +4,16 @@ import com.kilopo.exchange.rate.Rates;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
 
+import static com.kilopo.BotUtils.sendMessage;
 import static com.kilopo.Constants.CURRENCIES;
 import static com.kilopo.Constants.EXCHANGE_RATES_URL;
 
@@ -35,7 +34,7 @@ public class ExchangeRateCommand extends BotCommand {
                     .queryString("date", DATE_FORMAT.format(new Date()))
                     .asObject(Rates.class).getBody();
             ratesFormat(rates);
-            sendMessage(chat, formatMessage(rates), absSender);
+            sendMessage(absSender, formatMessage(rates), chat);
             System.out.println();
         } catch (UnirestException e) {
             e.printStackTrace();
@@ -65,19 +64,4 @@ public class ExchangeRateCommand extends BotCommand {
 
         return messageBuilder.toString();
     }
-
-    private void sendMessage(Chat chat, String text, AbsSender absSender) {
-        SendMessage message = new SendMessage();
-
-        message.setChatId(chat.getId());
-        message.setText(text);
-        message.enableHtml(true);
-
-        try {
-            absSender.execute(message);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-    }
-
 }

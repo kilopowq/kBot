@@ -5,11 +5,9 @@ import com.kilopo.weather.WeatherObject;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -17,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.kilopo.BotUtils.sendMessage;
 import static com.kilopo.Constants.WEATHER_QUERY_PARAMS;
 import static com.kilopo.Constants.WEATHER_URL;
 
@@ -40,7 +39,7 @@ public class WeatherCommand extends BotCommand {
                     .queryString(WEATHER_QUERY_PARAMS)
                     .asObject(WeatherObject.class)
                     .getBody();
-            sendMessage(chat, createMessage(getWeatherItemsForDaysQuatity(weatherObject)), absSender);
+            sendMessage(absSender, createMessage(getWeatherItemsForDaysQuatity(weatherObject)), chat);
         } catch (UnirestException e) {
             e.printStackTrace();
         }
@@ -79,16 +78,5 @@ public class WeatherCommand extends BotCommand {
         return message.toString();
     }
 
-    private void sendMessage(Chat chat, String text, AbsSender absSender) {
-        SendMessage message = new SendMessage();
 
-        message.setChatId(chat.getId());
-        message.setText(text);
-
-        try {
-            absSender.execute(message);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-    }
 }
