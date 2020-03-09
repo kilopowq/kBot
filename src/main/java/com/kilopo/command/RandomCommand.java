@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import static com.kilopo.BotUtils.checkName;
@@ -25,12 +26,15 @@ public class RandomCommand extends BotCommand {
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
         List<String> members = Arrays.asList(strings);
-        if(members.stream().anyMatch(p -> nonNull(checkName(p)))) {
-           return;
+        Optional<String> lys = members.stream().filter(p -> nonNull(checkName(p))).findFirst();
+        if(lys.isPresent()) {
+            String text = "Ви мали на увазі " + checkName(lys.get()) + " ?";
+            sendMessage(chat, text, absSender);
+        } else {
+            Random rand = new Random();
+            String randomElement = members.get(rand.nextInt(members.size()));
+            sendMessage(chat, randomElement, absSender);
         }
-        Random rand = new Random();
-        String randomElement = members.get(rand.nextInt(members.size()));
-        sendMessage(chat, randomElement, absSender);
     }
 
     private void sendMessage(Chat chat, String text, AbsSender absSender) {
