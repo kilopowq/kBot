@@ -2,6 +2,7 @@ package com.kilopo;
 
 import com.kilopo.command.ExchangeRateCommand;
 import com.kilopo.command.FootballCommand;
+import com.kilopo.command.RandomCommand;
 import com.kilopo.command.WeatherCommand;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -20,6 +21,7 @@ public class KBot extends TelegramLongPollingCommandBot {
         LEAGUES_NAMES.forEach((key, value) -> register(new FootballCommand(key, value)));
         register(new FootballCommand("all", "All leagues."));
         register(new ExchangeRateCommand());
+        register(new RandomCommand());
 
         register(new WeatherCommand("w", "Weather for current day"));
         register(new WeatherCommand("w", "Weather for 24 hours", 1));
@@ -37,6 +39,7 @@ public class KBot extends TelegramLongPollingCommandBot {
         String[] separators = {" ", ".", "/", ",", "|", "_"};
         String[] lastChars = {"і", "у", "ю", "ї"};
         String[] lastTwoChars = {"ам"};
+        String[] exceptions = {"юху", "внатурі", "взагалі", "всмислі", "аха", "ахах", "юхуу", "юхууу", "ахаха"};
         String text = update.getMessage().getText();
         String lastChar = text.substring(text.length() - 1);
         String lastTwoChar = null;
@@ -46,6 +49,7 @@ public class KBot extends TelegramLongPollingCommandBot {
 
 
         if (Arrays.stream(separators).noneMatch(text::contains)
+                && Arrays.stream(exceptions).noneMatch(p -> p.equals(text.toLowerCase()))
                 && (Arrays.stream(lastChars).anyMatch(lastChar::contains)
                 || Arrays.stream(lastTwoChars).anyMatch(lastTwoChar::contains)
                 || text.equals("їм")
