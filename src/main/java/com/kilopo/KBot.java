@@ -4,6 +4,7 @@ import com.kilopo.command.ExchangeRateCommand;
 import com.kilopo.command.FootballCommand;
 import com.kilopo.command.RandomCommand;
 import com.kilopo.command.WeatherCommand;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -12,13 +13,14 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.util.Arrays;
 
 import static com.kilopo.BotUtils.checkName;
+import static com.kilopo.BotUtils.sendMessage;
 import static com.kilopo.Constants.*;
 
+@Component
 public class KBot extends TelegramLongPollingCommandBot {
     private String newMessageText;
 
     KBot() {
-        super(BOT_NAME);
         LEAGUES_NAMES.forEach((key, value) -> register(new FootballCommand(key, value)));
         register(new FootballCommand("all", "All leagues."));
         register(new ExchangeRateCommand());
@@ -40,7 +42,7 @@ public class KBot extends TelegramLongPollingCommandBot {
         String[] separators = {" ", ".", "/", ",", "|", "_"};
         String[] lastChars = {"і", "у", "ю", "ї"};
         String[] lastTwoChars = {"ам"};
-        String[] exceptions = {"юху", "внатурі", "взагалі", "всмислі", "аха", "ахах", "юхуу", "юхууу", "ахаха", "угу", "угуу"};
+        String[] exceptions = {"юху", "внатурі", "взагалі", "всмислі", "аха", "ахах", "юхуу", "юхууу", "ахаха", "угу", "угуу", "воу", "воуу"};
         String text = update.getMessage().getText();
         String lastChar = text.substring(text.length() - 1);
         String lastTwoChar = null;
@@ -63,7 +65,7 @@ public class KBot extends TelegramLongPollingCommandBot {
             } else {
                 newMessageText = text + " пезда, я не знаю шо дєлать.";
             }
-            sendMessage(newMessageText, update);
+            sendMessage(this, newMessageText, update);
         }
     }
 
@@ -71,22 +73,7 @@ public class KBot extends TelegramLongPollingCommandBot {
         newMessageText = checkName(update.getMessage().getText());
         if (newMessageText != null) {
             newMessageText = "Ви мали на увазі " + newMessageText + " ?";
-            sendMessage(newMessageText, update);
-        }
-    }
-
-
-
-    private void sendMessage(String text, Update update) {
-        SendMessage message = new SendMessage();
-
-        message.setChatId(update.getMessage().getChatId());
-        message.setText(text);
-
-        try {
-            execute(message);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
+            sendMessage(this, newMessageText, update);
         }
     }
 

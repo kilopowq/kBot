@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 public interface Constants {
-    String BOT_NAME = "yahz_bot";
-    String BOT_TOKEN = "659773170:AAG-H37w4EhaLIAqVpskAQgSky7R7MhUZyI";
+    //    String BOT_NAME = "yahz_bot";
+    String BOT_NAME = "kilopo_bot";
+    //    String BOT_TOKEN = "659773170:AAG-H37w4EhaLIAqVpskAQgSky7R7MhUZyI";
+    String BOT_TOKEN = "641572819:AAGh7sPJg2QL6rV-SkRrfB0Id0073vPR9lU";
     String FOOTBALL_TOKEN = "59b23acc0f2c464fa984dfcda4bf3146";
     String WEATHER_TOKEN = "a9b3142e7635db621d8d40f9bdbc0920";
     String EXCHANGE_RATES_URL = "https://api.privatbank.ua/p24api/exchange_rates?json";

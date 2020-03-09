@@ -1,7 +1,6 @@
 package com.kilopo.command;
 
 import com.kilopo.Constants;
-import com.kilopo.CustomObjectMapper;
 import com.kilopo.football.MatchDay;
 import com.kilopo.football.Status;
 import com.mashape.unirest.http.HttpResponse;
@@ -10,14 +9,13 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.GetRequest;
 import com.mashape.unirest.request.HttpRequest;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.text.SimpleDateFormat;
 
+import static com.kilopo.BotUtils.sendMessage;
 import static com.kilopo.Constants.FOOTBALL_TOKEN;
 import static com.kilopo.Constants.FOOTBALL_URL;
 
@@ -31,7 +29,7 @@ public class FootballCommand extends BotCommand {
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) {
-        sendMessage(chat, createScedule(getMatchday()), absSender);
+        sendMessage(absSender, createScedule(getMatchday()), chat);
     }
 
     private GetRequest getFootballURL() {
@@ -88,19 +86,6 @@ public class FootballCommand extends BotCommand {
 
 
         return message.toString();
-    }
-
-    private void sendMessage(Chat chat, String text, AbsSender absSender) {
-        SendMessage message = new SendMessage();
-
-        message.setChatId(chat.getId());
-        message.setText(text);
-
-        try {
-            absSender.execute(message);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
     }
 
     private MatchDay getMatchday() {
