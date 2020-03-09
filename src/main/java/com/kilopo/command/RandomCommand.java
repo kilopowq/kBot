@@ -11,6 +11,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import static com.kilopo.BotUtils.checkName;
+import static java.util.Objects.nonNull;
+
 public class RandomCommand extends BotCommand {
     private static final String COMMAND_NAME = "random";
     private static final String COMMAND_DESCRIPTION = "Random member";
@@ -22,6 +25,9 @@ public class RandomCommand extends BotCommand {
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
         List<String> members = Arrays.asList(strings);
+        if(members.stream().anyMatch(p -> nonNull(checkName(p)))) {
+           return;
+        }
         Random rand = new Random();
         String randomElement = members.get(rand.nextInt(members.size()));
         sendMessage(chat, randomElement, absSender);
