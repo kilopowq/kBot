@@ -35,7 +35,6 @@ public class ExchangeRateCommand extends BotCommand {
                     .asObject(Rates.class).getBody();
             ratesFormat(rates);
             sendMessage(absSender, formatMessage(rates), chat);
-            System.out.println();
         } catch (UnirestException e) {
             e.printStackTrace();
         }
