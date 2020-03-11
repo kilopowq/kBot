@@ -80,4 +80,9 @@ public class KBot extends TelegramLongPollingCommandBot {
     public String getBotToken() {
         return BOT_TOKEN;
     }
+
+    @Override
+    public String getBotUsername() {
+        return BOT_NAME;
+    }
 }
