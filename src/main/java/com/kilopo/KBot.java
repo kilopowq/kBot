@@ -36,7 +36,16 @@ public class KBot extends TelegramLongPollingCommandBot {
     public void processNonCommandUpdate(Update update) {
         checkLus(update);
         hzShoDelat(update);
+        aleksiukYana(update);
     }
+
+    private void aleksiukYana(Update update) {
+        if (update.getMessage().getText().equalsIgnoreCase("алексюк яна")) {
+            newMessageText = "З'їбала нахуй сука, шмара блять, шлюха нахуй з мого блять, з мої сторони їбана ти нахуй гнида на... \nТак, кого ще, блять, послати, їбані ви, нахуй, підараси, блять шлюхи нах бль...";
+            sendMessage(this, newMessageText, update);
+        }
+    }
+
 
     private void hzShoDelat(Update update) {
         String[] separators = {" ", ".", "/", ",", "|", "_"};
