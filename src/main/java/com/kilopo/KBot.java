@@ -51,7 +51,7 @@ public class KBot extends TelegramLongPollingCommandBot {
         String[] separators = {" ", ".", "/", ",", "|", "_"};
         String[] lastChars = {"і", "у", "ю", "ї"};
         String[] lastTwoChars = {"ам"};
-        String[] exceptions = {"юху", "внатурі", "взагалі", "всмислі", "аха", "ахах", "юхуу", "юхууу", "ахаха", "угу", "угуу", "воу", "воуу", "окі", "дякую"};
+        String[] exceptions = {"юху", "внатурі", "взагалі", "всмислі", "аха", "ахах", "юхуу", "юхууу", "ахаха", "угу", "угуу", "воу", "воуу", "окі", "дякую", "типу"};
         String text = update.getMessage().getText();
         String lastChar = text.substring(text.length() - 1);
         String lastTwoChar = null;
@@ -59,6 +59,9 @@ public class KBot extends TelegramLongPollingCommandBot {
             lastTwoChar = text.substring(text.length() - 2);
         }
 
+        if (text.length() >= 2 && text.substring(text.length() - 1).equals(text.substring(text.length() - 2, text.length() - 1))) {
+            return;
+        }
 
         if (Arrays.stream(separators).noneMatch(text::contains)
                 && Arrays.stream(exceptions).noneMatch(p -> p.equals(text.toLowerCase()))
